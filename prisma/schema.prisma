@@ -1,0 +1,32 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+// Tabel untuk produk baju
+model Product {
+  id          Int      @id @default(autoincrement())
+  name        String
+  description String   @db.Text
+  price       Int
+  image       String   // URL gambar baju
+  category    String   // Misal: Kaos, Kemeja, Jaket
+  stock       Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+// Tabel untuk pesanan
+model Order {
+  id            Int      @id @default(autoincrement())
+  customerName  String
+  customerEmail String
+  address       String   @db.Text
+  totalAmount   Int
+  status        String   @default("PENDING") // PENDING, PAID, SHIPPED
+  createdAt     DateTime @default(now())
+}
